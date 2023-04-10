@@ -5,7 +5,7 @@ import re
 import scrapy
 
 class covid19gov(CrawlSpider):
-    name = "covid19gov"
+    name = "covid19gov_spider"
     allowed_domains = ["covid19.gov.vn"]
     start_urls = ["https://covid19.gov.vn/timelinelist/1711565/1.htm",
                   "https://covid19.gov.vn/timelinelist/1711566/1.htm",
@@ -52,6 +52,7 @@ class covid19gov(CrawlSpider):
             'Content': Content,
             # 'extra_metadata':{'Tag': Tag}
         }
+        # if not Content:
         next = self.generate_request(response.request.headers.get('Referer'))
         yield scrapy.Request(
             url=next,
@@ -66,5 +67,5 @@ class covid19gov(CrawlSpider):
 
     def access_all_link(self,response):
         next_page = response.css('a::attr(href)').getall()
-        if next_page is not None:
+        if next_page:
             yield from response.follow_all(next_page, callback=self.parse)
