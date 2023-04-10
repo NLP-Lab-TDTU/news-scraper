@@ -4,7 +4,7 @@ from scrapy.exceptions import DropItem
 import re
 
 class YHocVietNamSpider(CrawlSpider):
-    name = "YHocVietNam"
+    name = "YHocVietNam_spider"
     allowed_domains = ["yhocvietnam.com.vn"]
     start_urls = ["https://yhocvietnam.com.vn/"]
 
