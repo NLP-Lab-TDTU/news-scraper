@@ -4,7 +4,7 @@ from YHoc.items import YhocItem, YHocItemloader
 import newspaper
 
 class SuckhoedoisongSpider(CrawlSpider):
-    name = "SucKhoeDoiSong"
+    name = "SucKhoeDoiSong_spider"
     allowed_domains = ["suckhoedoisong.vn"]
     start_urls = ["https://suckhoedoisong.vn/"]
 
