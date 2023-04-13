@@ -22,6 +22,9 @@ class BaotintucSpider(CrawlSpider):
     required_fields = ['title', 'url', 'content']
 
     def parse_item(self, response):
+        if response.css('h1.detail-title::text').extract_first() is None:
+            return
+
         item = NewsItem()
         item['title'] = response.css('h1.detail-title::text').extract_first().strip()
         item['url'] = response.url

@@ -22,6 +22,9 @@ class TuoitreSpider(CrawlSpider):
     required_fields = ['title', 'url', 'content']
 
     def parse_item(self, response):
+        if response.css('h1.detail-title.article-title[data-role="title"]::text').extract_first() is None:
+            return
+
         item = NewsItem()
         item['title'] = response.css('h1.detail-title.article-title[data-role="title"]::text').extract_first()
         item['url'] = response.url
