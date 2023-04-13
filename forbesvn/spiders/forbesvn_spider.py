@@ -118,6 +118,7 @@ class ArticleSpider(CrawlSpider):
             newspaper['title'] = news.get_title(tag="h1", class_of_tag="forbes-single__heading-title")
             if newspaper['title'] is None:
               return
+            newspaper['title'] = newspaper['title'].strip()
             newspaper['url'] = url
             newspaper['summary'] = news.get_summary('div', 'forbes-short-description__container')
             newspaper['content'] = news.get_content('div', class_of_tag='forbes-container mt-32 forbes-mb-80 forbes-position-relative px-0')
