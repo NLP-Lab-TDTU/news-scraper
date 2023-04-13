@@ -16,7 +16,7 @@ class NhanlucnganhluatSpider(CrawlSpider):
     start_urls = ["https://nhanlucnganhluat.vn/tin-tuc.html"]
 
     rules = [
-        Rule(LinkExtractor(allow=r'^https:\/\/nhanlucnganhluat\.vn\/tin-tuc\/.*.html'), callback='parse_item', follow=True),
+        Rule(LinkExtractor(allow=r'^https:\/\/nhanlucnganhluat\.vn\/tin-tuc\/.*\.html'), callback='parse_item', follow=True),
     ]
 
     required_fields = ['title', 'url', 'content']
