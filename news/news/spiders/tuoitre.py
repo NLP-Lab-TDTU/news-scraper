@@ -1,3 +1,7 @@
+"""
+Author: Duong Trong Chi
+"""
+
 import re
 
 from scrapy.linkextractors import LinkExtractor
@@ -15,9 +19,9 @@ class TuoitreSpider(CrawlSpider):
         Rule(LinkExtractor(allow=r'^https:\/\/tuoitre\.vn\/.*.htm'), callback='parse_item', follow=True),
     ]
 
+    required_fields = ['title', 'url', 'content']
+
     def parse_item(self, response):
-        if response.css('h1.detail-title.article-title::text').extract_first() is None:
-            return
         item = NewsItem()
         item['title'] = response.css('h1.detail-title.article-title[data-role="title"]::text').extract_first()
         item['url'] = response.url
@@ -32,4 +36,8 @@ class TuoitreSpider(CrawlSpider):
 
         date = response.css('div.detail-time div[data-role="publishdate"]::text').extract_first().strip()
         item['extra_metadata'] = {'date': date}
+
+        for field in self.required_fields:
+            if item[field] is None or item[field] == '':
+                return
         return item

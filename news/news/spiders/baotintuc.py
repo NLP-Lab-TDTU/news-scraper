@@ -1,3 +1,7 @@
+"""
+Author: Duong Trong Chi
+"""
+
 import re
 
 from scrapy.linkextractors import LinkExtractor
@@ -15,9 +19,9 @@ class BaotintucSpider(CrawlSpider):
         Rule(LinkExtractor(allow=r"^https:\/\/baotintuc\.vn\/.*"), callback="parse_item", follow=True),
     ]
 
+    required_fields = ['title', 'url', 'content']
+
     def parse_item(self, response):
-        if response.css('h1.detail-title::text').extract_first() is None:
-            return
         item = NewsItem()
         item['title'] = response.css('h1.detail-title::text').extract_first().strip()
         item['url'] = response.url
@@ -34,4 +38,8 @@ class BaotintucSpider(CrawlSpider):
         tag = response.css('div.date h4.cate a strong::text').extract_first()
 
         item['extra_metadata'] = {'date': date, 'tag': tag}
+
+        for field in self.required_fields:
+            if item[field] is None or item[field] == '':
+                return
         return item
