@@ -7,7 +7,7 @@ import re
 
 
 class ArticleSpider(CrawlSpider):
-    filter_str = ''.join([chr(i) for i in range(1, 32)])
+    #filter_str = ''.join([chr(i) for i in range(1, 32)])
     name = 'alotaichinh'
     allowed_domains = ['alotaichinh.vn']
     start_urls = ['https://alotaichinh.vn/can-tien-gap-phai-lam-sao/']
@@ -40,6 +40,6 @@ class ArticleSpider(CrawlSpider):
             return
     
     def clean(self,sentence):
-        tmp = sentence.translate(str.maketrans('','',ArticleSpider.filter_str))
-        sentence = tmp.replace(" +"," ").strip()
+        #tmp = sentence.translate(str.maketrans('','',ArticleSpider.filter_str))
+        sentence = sentence.replace(" +"," ").strip()
         return sentence
