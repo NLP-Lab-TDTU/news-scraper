@@ -28,8 +28,9 @@ class ArticleSpider(CrawlSpider):
             newspaper['title'] = response.css('h1.entry-title::text').get().strip()
             if newspaper['title'] is None:
                 return
-            newspaper['summary'] = " ".join(response.css('div.entry-content>p:first-child').css('*::text').getall())    
-            newspaper['content'] = " ".join(response.css('div.entry-content>p:not(:first-child)').css('*::text').getall())
+            page_body = response.css('div.entry-content>*[style="text-align: justify;"]').css("*::text")
+            newspaper['summary'] = " ".join(page_body[0].css("*::text").getall())
+            newspaper['content'] = " ".join(page_body[1:-3].css("*::text").getall())
             newspaper['url'] = response.url
             newspaper['extra_metadata'] = {'tags':response.css('ul#crumbs>li>a::text')[1:].getall()}
             newspaper['content'] = self.clean(newspaper['content'])
