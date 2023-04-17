@@ -22,7 +22,8 @@ class ArticleSpider(CrawlSpider):
 
     def clean(self, txt):
         #tmp = txt.translate(str.maketrans('','',ArticleSpider.filter_str))
-        txt = txt.replace(" +"," ").strip()
+        txt = re.sub(r" +"," ",txt)
+        txt = re.sub(r'\n+','\n',txt).strip()
         return txt
 
     def parse_item(self, response):
