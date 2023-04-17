@@ -28,8 +28,8 @@ class ArticleSpider(CrawlSpider):
             newspaper['title'] = response.css('h1.entry-title::text').get().strip()
             if newspaper['title'] is None:
                 return
-            newspaper['summary'] = "".join(response.css('div.entry-content>p:first-child').css('*::text').getall())    
-            newspaper['content'] = "".join(response.css('div.entry-content>p:not(:first-child)').css('*::text').getall())
+            newspaper['summary'] = " ".join(response.css('div.entry-content>p:first-child').css('*::text').getall())    
+            newspaper['content'] = " ".join(response.css('div.entry-content>p:not(:first-child)').css('*::text').getall())
             newspaper['url'] = response.url
             newspaper['extra_metadata'] = {'tags':response.css('ul#crumbs>li>a::text')[1:].getall()}
             newspaper['content'] = self.clean(newspaper['content'])
@@ -41,5 +41,6 @@ class ArticleSpider(CrawlSpider):
     
     def clean(self,sentence):
         #tmp = sentence.translate(str.maketrans('','',ArticleSpider.filter_str))
-        sentence = sentence.replace(" +"," ").strip()
+        sentence = re.sub(r' +',' ',sentence)
+        sentence = re.sub(r'\n+','\n',sentence).strip()
         return sentence
