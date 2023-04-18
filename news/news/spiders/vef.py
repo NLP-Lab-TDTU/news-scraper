@@ -19,7 +19,7 @@ class vefSpider(CrawlSpider):
         if response.css('h1.entry-title::text').extract_first() is None:
             return
 
-        item = VefItem()   
+        item = NewsItem()   
         item['title'] = response.css('h1.entry-title::text').extract_first()
         item['url'] = response.url
 
