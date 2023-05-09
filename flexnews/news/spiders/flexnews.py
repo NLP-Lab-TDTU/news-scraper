@@ -69,6 +69,11 @@ class FlexSpider(CrawlSpider):
         item.set_html(response.body)
         item.parse()
 
+        if item.is_media_news():
+            return
+        if item.meta_lang != 'vi':
+            return
+
         category = item
         url_title_tups = self.news3k_extractor.get_urls(item.doc, titles=True)
 

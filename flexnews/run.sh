@@ -1,0 +1,1 @@
+screen -dmS vnexpress bash -c 'scrapy crawl flexnews -a domain=vnexpress.net -a url=https://vnexpress.vn'
