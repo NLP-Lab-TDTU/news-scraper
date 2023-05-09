@@ -31,5 +31,5 @@ class MongoPipeline:
 class WriteFilePipeline:
     def process_item(self, item, spider):
         item_id = item['extra_metadata']['id']
-        open(f'./data/{item_id}.json', 'w').write(json.dumps(dict(item), ensure_ascii=False))
+        open(f'/home/cuong/projects/VietGPT/data/{item_id}.json', 'w').write(json.dumps(dict(item), ensure_ascii=False))
         return item

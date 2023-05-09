@@ -2,52 +2,29 @@
 Author: Nguyen Trong Hieu
 """
 
-import json
+import hashlib
 import re
-import unicodedata
 
-import markdownify
 import scrapy
-from newspaper.extractors import ContentExtractor
+from newspaper import Article, Source
 from newspaper.configuration import Configuration
-from newspaper import Article
-from newspaper import Source
-from scrapy.linkextractors import LinkExtractor
-from scrapy.spiders import CrawlSpider, Rule
+from newspaper.extractors import ContentExtractor
+from scrapy.spiders import CrawlSpider
 
 from ..items import NewsItem
+
 
 class FlexSpider(CrawlSpider):
     name = "flexnews"
     allowed_domains = []
-    start_urls = [
-        "https://vnexpress.net/",
-        "https://dantri.com.vn/",
-        "https://tuoitre.vn/",
-        "https://thanhnien.vn/",
-        "https://vietnamnet.vn/",
-        "https://zingnews.vn/",
-        "https://baomoi.com/",
-        "https://vtv.vn/",
-        "https://laodong.vn/",
-        "https://ngoisao.net/",
-        "https://vietnammoi.vn/",
-        "https://vietnamplus.vn/",
-        "https://vov.vn/",
-        "https://tienphong.vn/",
-        "https://soha.vn/",
-        "https://plo.vn/",
-        "https://baotintuc.vn/",
-        "https://baodautu.vn/",
-        "https://haiquanonline.com.vn/",
-    ]
-
-    rules = [
-        Rule(LinkExtractor(allow=r'https:.*')),
-    ]
+    start_urls = []
 
     news3k_config = Configuration()
     news3k_extractor = ContentExtractor(news3k_config)
+
+    def __init__(self, domain, url):
+        self.allowed_domains = [domain]
+        self.start_urls = [url]
 
     @property
     def header(self):
@@ -123,7 +100,7 @@ class FlexSpider(CrawlSpider):
             content = article.text
 
             extra_metadata = {
-                'id': article.link_hash,
+                'id': hashlib.md5(article.url.encode('utf-8')).hexdigest(),
                 'date': str(article.publish_date),
             }
 
