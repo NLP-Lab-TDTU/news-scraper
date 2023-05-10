@@ -20,6 +20,7 @@ class FlexSpider(CrawlSpider):
     start_urls = []
 
     news3k_config = Configuration()
+    news3k_config.fetch_images=False
     news3k_extractor = ContentExtractor(news3k_config)
 
     def __init__(self, domain, url):
@@ -48,21 +49,21 @@ class FlexSpider(CrawlSpider):
         for category in source.category_urls():
             yield scrapy.Request(url=category, callback=self.parse, headers=self.header)
 
-        if len(source.categories) == 1:
-            url_title_tups = self.news3k_extractor.get_urls(source.doc, titles=True)
-            for tup in url_title_tups:
-                indiv_url = tup[0]
-                indiv_title = tup[1]
-                sub_item = Article(
-                    url=indiv_url,
-                    source_url=source.url,
-                    title=indiv_title,
-                    config=self.news3k_config
-                )
-                sub_item_url = sub_item.url
-                sub_item_url = re.sub('#.*$', '', sub_item_url)
-                if sub_item_url.startswith('http://') or sub_item_url.startswith('https://'):
-                    yield scrapy.Request(url=sub_item_url, callback=self.parse, headers=self.header)
+        # if len(source.categories) <= 2:
+        url_title_tups = self.news3k_extractor.get_urls(source.doc, titles=True)
+        for tup in url_title_tups:
+            indiv_url = tup[0]
+            indiv_title = tup[1]
+            sub_item = Article(
+                url=indiv_url,
+                source_url=source.url,
+                title=indiv_title,
+                config=self.news3k_config
+            )
+            sub_item_url = sub_item.url
+            sub_item_url = re.sub('#.*$', '', sub_item_url)
+            if sub_item_url.startswith('http://') or sub_item_url.startswith('https://'):
+                yield scrapy.Request(url=sub_item_url, callback=self.parse, headers=self.header)
 
     def parse(self, response):
         item = Article(response.url, keep_article_html=True)
@@ -71,8 +72,10 @@ class FlexSpider(CrawlSpider):
 
         if item.is_media_news():
             return
-        if item.meta_lang != 'vi':
-            return
+
+        for ext in ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.jpg', '.jpeg', '.png', '.gif']:
+            if response.url.endswith(ext) or ext in response.url:
+                return
 
         category = item
         url_title_tups = self.news3k_extractor.get_urls(item.doc, titles=True)
@@ -96,8 +99,6 @@ class FlexSpider(CrawlSpider):
         else:
             article = item
             if article.is_media_news():
-                return
-            if article.meta_lang != 'vi':
                 return
 
             title = article.title
