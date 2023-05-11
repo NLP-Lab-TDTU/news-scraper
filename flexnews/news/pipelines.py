@@ -5,7 +5,7 @@
 
 
 import json
-
+import os
 import pymongo
 from itemadapter import ItemAdapter
 
@@ -31,5 +31,8 @@ class MongoPipeline:
 class WriteFilePipeline:
     def process_item(self, item, spider):
         item_id = item['extra_metadata']['id']
-        open(f'/home/cuong/projects/VietGPT/data/{item_id}.json', 'w').write(json.dumps(dict(item), ensure_ascii=False))
+        folder = os.getenv('FOLDER')
+        my_path = f'./{folder}/{item_id}.json'
+        master_path = f'/home/cuong/projects/VietGPT/data/{item_id}.json'
+        open(my_path,'w').write(json.dumps(dict(item), ensure_ascii=False))
         return item

@@ -11,7 +11,10 @@ class MyDupeFilter(BaseDupeFilter):
 
     def request_seen(self, request):
         item_id = hashlib.md5(request.url.encode('utf-8')).hexdigest()
-        if os.path.exists(f'/home/cuong/projects/VietGPT/data/{item_id}.json'):
+        folder = os.getenv('FOLDER')
+        my_path = f'./{folder}/{item_id}.json'
+        master_path = f'/home/cuong/projects/VietGPT/data/{item_id}.json'
+        if os.path.exists(my_path):
             return True
 
         if request.url in self.visited_urls:

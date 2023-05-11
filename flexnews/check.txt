@@ -1,0 +1,4 @@
+baotintuc.vn,https://baotintuc.vn/
+nld.com.vn,https://nld.com.vn/
+www.24h.com.vn,https://www.24h.com.vn/
+
