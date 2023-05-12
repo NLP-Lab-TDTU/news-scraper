@@ -1,0 +1,13 @@
+  1 nld.com.vn,https://nld.com.vn/
+  2 dantri.com.vn,https://dantri.com.vn/  
+  3 24h.com.vn,https://www.24h.com.vn/
+  4 nhanlucnganhluat.vn,https://nhanlucnganhluat.vn/
+  5 toaan.gov.vn,https://www.toaan.gov.vn/webcenter/portal/tatc/home
+  6 banan.thuvienphapluat.vn,https://banan.thuvienphapluat.vn/
+  7 lawnet.vn,https://lawnet.vn/    
+  8 luatvietnam.vn,https://luatvietnam.vn/
+  9 kiemsat.vn,https://kiemsat.vn/
+ 10 tapchitoaan.vn,https://tapchitoaan.vn/
+ 11 vanbanphapluat.co,https://vanbanphapluat.co/
+ 12 vbpl.vn,https://vbpl.vn/pages/portal.aspx   
+ 13 vpcp.chinhphu.vn,https://vpcp.chinhphu.vn/
